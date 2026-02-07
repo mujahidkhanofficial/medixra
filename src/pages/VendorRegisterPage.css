@@ -1,0 +1,186 @@
+
+.vendor-register-page {
+  padding: 60px 0;
+  background-color: var(--color-gray-light);
+  min-height: 100vh;
+}
+
+.vr-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.vr-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-gray-border);
+}
+
+.vr-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.vr-header h1 {
+  font-size: var(--font-size-h1);
+  color: var(--color-gray-dark);
+  margin-bottom: 12px;
+}
+
+.vr-header p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+.vr-form {
+  display: grid;
+  gap: 24px;
+}
+
+.vr-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vr-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+}
+
+.vr-required {
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.vr-input, .vr-select, .vr-textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--color-gray-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+  background-color: var(--color-white);
+  color: var(--color-gray-dark);
+}
+
+.vr-input:focus, .vr-select:focus, .vr-textarea:focus {
+  border-color: var(--color-teal-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.1);
+}
+
+.vr-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.vr-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  background: var(--color-gray-light);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gray-border);
+}
+
+.vr-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--color-gray-medium);
+  cursor: pointer;
+}
+
+.vr-error {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.vr-submit-btn {
+  background: var(--color-teal-primary);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  margin-top: 20px;
+}
+
+.vr-submit-btn:hover {
+  background: var(--color-teal-dark);
+}
+
+.vr-submit-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Success State */
+.vr-success-card {
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.vr-success-icon {
+  width: 80px;
+  height: 80px;
+  background: #dcfce7;
+  color: #16a34a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.vr-success-card h2 {
+  font-size: 2rem;
+  color: var(--color-gray-dark);
+  margin-bottom: 16px;
+}
+
+.vr-success-card p {
+  color: var(--color-gray-medium);
+  max-width: 500px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.vr-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn-secondary {
+  background: var(--color-gray-light);
+  color: var(--color-gray-dark);
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+@media (max-width: 640px) {
+  .vr-card {
+    padding: 24px;
+  }
+  .vr-actions {
+    flex-direction: column;
+  }
+}

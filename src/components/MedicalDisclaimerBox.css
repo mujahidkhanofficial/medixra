@@ -1,0 +1,42 @@
+
+.medical-disclaimer-box {
+  background-color: #FEF3C7;
+  border: 2px solid #F59E0B;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: #1F2937;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.medical-disclaimer-icon {
+  flex-shrink: 0;
+  color: #D97706;
+  margin-top: 2px;
+}
+
+.medical-disclaimer-content {
+  flex: 1;
+}
+
+.medical-disclaimer-title {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+  color: #92400E;
+}
+
+.medical-disclaimer-link {
+  color: #0E7490;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.medical-disclaimer-link:hover {
+  color: #0B5E75;
+}

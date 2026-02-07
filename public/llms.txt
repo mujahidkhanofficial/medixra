@@ -1,0 +1,12 @@
+## Pages
+- [- MedEquip](/productdetail): No description available
+- [Admin - Verification Dashboard](/adminverificationdashboard): No description available
+- [Become a Vendor - MedEquip](/vendorregistration): Join MedEquip as a vendor and reach thousands of healthcare professionals
+- [Browse Medical Equipment - Medixra](/productlisting): No description available
+- [Buyer Dashboard - MedEquip](/buyerdashboard): Manage your cart and orders
+- [Category Management - MedEquip](/categorymanagement): Manage product categories and subcategories
+- [Doctor Dashboard - MedEquip](/doctordashboard): Manage your wishlist and inquiries
+- [Login - MedEquip Marketplace](/login): Login to your MedEquip account to access medical equipment marketplace
+- [Sign Up - MedEquip Marketplace](/signup): Create a new account on MedEquip Marketplace
+- [Vendor Dashboard - MedEquip](/vendordashboard): No description available
+- [Vendor Onboarding - MedEquip](/vendoronboarding): Complete your vendor profile setup

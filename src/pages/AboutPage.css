@@ -1,0 +1,74 @@
+
+.about-page {
+  padding-bottom: 80px;
+}
+
+.about-hero {
+  background-color: var(--color-bg-dark);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.about-hero h1 {
+  color: white;
+  margin-bottom: 24px;
+}
+
+.mission-statement {
+  font-size: 1.5rem;
+  font-weight: 300;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.about-content-section {
+  padding: 80px 0;
+}
+
+.feature-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  margin-top: 40px;
+}
+
+.feature-card {
+  padding: 32px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.feature-card h3 {
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+.split-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .split-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.region-map-placeholder {
+  background-color: var(--color-bg-light);
+  border-radius: var(--radius-xl);
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--color-border);
+  color: var(--color-text-muted);
+}
