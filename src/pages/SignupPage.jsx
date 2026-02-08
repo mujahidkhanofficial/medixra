@@ -1,12 +1,13 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { User, Mail, Lock, UserPlus, ArrowLeft } from 'lucide-react';
+import { User, Mail, Lock, UserPlus, ArrowLeft, ShieldCheck, Stethoscope } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { useSEO } from '@/hooks/useSEO';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -22,6 +23,12 @@ const SignupPage = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const seo = useSEO({
+    title: "Sign Up - Medixra",
+    description: "Create a new account on Medixra Marketplace to buy or sell medical equipment.",
+    canonicalUrl: "https://medixra.com/signup"
+  });
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -31,7 +38,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: 'Error',
@@ -42,12 +49,12 @@ const SignupPage = () => {
     }
 
     if (!termsAccepted) {
-        toast({
-            title: 'Terms Required',
-            description: 'Please agree to the Terms & Conditions to sign up.',
-            variant: 'destructive'
-        });
-        return;
+      toast({
+        title: 'Terms Required',
+        description: 'Please agree to the Terms & Conditions to sign up.',
+        variant: 'destructive'
+      });
+      return;
     }
 
     setLoading(true);
@@ -70,162 +77,214 @@ const SignupPage = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Sign Up - MedEquip Marketplace</title>
-        <meta name="description" content="Create a new account on MedEquip Marketplace" />
-      </Helmet>
+    <div className="min-h-screen w-full lg:grid lg:grid-cols-2">
+      {seo}
 
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 relative">
-        <Button 
-          onClick={() => navigate(-1)} 
-          className="absolute top-4 left-4 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-lg transition-all shadow-md hover:shadow-lg flex items-center gap-2 z-10"
+      {/* Left Side: Branding (Desktop Only) */}
+      <div className="hidden lg:flex flex-col justify-between bg-primary p-12 text-primary-foreground relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10 mix-blend-multiply" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px] opacity-30 -mr-24 -mt-24 pointer-events-none" />
+
+        <div className="relative z-10">
+          <Link to="/" className="flex items-center gap-2 mb-12">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-primary">
+              <Stethoscope className="h-6 w-6" />
+            </div>
+            <span className="text-2xl font-bold tracking-tight">Medixra</span>
+          </Link>
+
+          <div className="space-y-6 max-w-lg">
+            <h1 className="text-4xl font-extrabold tracking-tight leading-tight">
+              Join the Future of <br />
+              <span className="text-white/80">Healthcare Supply.</span>
+            </h1>
+            <p className="text-lg text-primary-foreground/90 leading-relaxed">
+              Connect directly with verified vendors, access transparent pricing, and equip your facility with confidence.
+            </p>
+          </div>
+        </div>
+
+        <div className="relative z-10 grid gap-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="font-bold text-lg">Verified Vendors</div>
+              <div className="text-sm text-primary-foreground/80">Every seller is vetted for quality compliance.</div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20 flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center text-white">
+              <UserPlus className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="font-bold text-lg">Community First</div>
+              <div className="text-sm text-primary-foreground/80">Join 500+ hospitals and clinics in Pakistan.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side: Form */}
+      <div className="flex items-center justify-center p-8 bg-background relative">
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="absolute top-4 left-4 lg:top-8 lg:left-8 gap-2 text-muted-foreground hover:text-primary"
         >
-          <ArrowLeft className="w-4 h-4" /> Go Back
+          <ArrowLeft className="w-4 h-4" /> Back to Home
         </Button>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md mt-12 sm:mt-0"
-        >
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
-            <div className="text-center mb-8">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring' }}
-                className="inline-block p-3 bg-[var(--color-bg-light)] rounded-full mb-4 border border-[var(--color-border)]"
-              >
-                <UserPlus className="w-8 h-8 text-[var(--color-primary)]" />
-              </motion.div>
-              <h1 className="text-3xl font-bold text-[var(--color-text-heading)]">Create Account</h1>
-              <p className="text-[var(--color-text-body)] mt-2">Join our medical marketplace</p>
-            </div>
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight">Create an account</h2>
+            <p className="text-muted-foreground">
+              Start buying or selling medical equipment today.
+            </p>
+          </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-heading)] mb-2">
-                  Full Name
-                </label>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
+                  <Input
+                    id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    placeholder="Dr. Ali Khan"
+                    className="pl-10 h-11"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-gray-900"
-                    placeholder="Enter your full name"
                   />
+                  <User className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-heading)] mb-2">
-                  Email Address
-                </label>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
+                  <Input
+                    id="email"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    placeholder="name@hospital.com"
+                    className="pl-10 h-11"
                     required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-gray-900"
-                    placeholder="Enter your email"
                   />
+                  <Mail className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-heading)] mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-gray-900"
-                    placeholder="Create a password"
-                  />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="******"
+                      className="pl-10 h-11"
+                      required
+                    />
+                    <Lock className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm</Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="******"
+                      className="pl-10 h-11"
+                      required
+                    />
+                    <Lock className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-heading)] mb-2">
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-gray-900"
-                    placeholder="Confirm your password"
-                  />
+              <div className="space-y-2 p-4 bg-muted/40 rounded-xl border border-muted">
+                <Label htmlFor="role" className="font-bold">I want to...</Label>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div
+                    className={`cursor-pointer rounded-lg border p-3 flex flex-col items-center justify-center text-center gap-2 transition-all ${formData.role === 'buyer'
+                        ? 'bg-primary/10 border-primary text-primary'
+                        : 'bg-background border-input hover:bg-muted'
+                      }`}
+                    onClick={() => handleChange({ target: { name: 'role', value: 'buyer' } })}
+                  >
+                    <Stethoscope className="w-5 h-5" />
+                    <span className="text-sm font-bold">Buy Equipment</span>
+                  </div>
+                  <div
+                    className={`cursor-pointer rounded-lg border p-3 flex flex-col items-center justify-center text-center gap-2 transition-all ${formData.role === 'vendor'
+                        ? 'bg-primary/10 border-primary text-primary'
+                        : 'bg-background border-input hover:bg-muted'
+                      }`}
+                    onClick={() => handleChange({ target: { name: 'role', value: 'vendor' } })}
+                  >
+                    <ShieldCheck className="w-5 h-5" />
+                    <span className="text-sm font-bold">Sell Equipment</span>
+                  </div>
                 </div>
+                {/* Hidden Select to maintain form logic if needed, but UI handled above */}
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-heading)] mb-2">
-                  I want to...
-                </label>
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-gray-900"
-                >
-                  <option value="buyer">Buy Equipment (Doctor/Hospital)</option>
-                  <option value="vendor">Sell Equipment (Vendor)</option>
-                </select>
-              </div>
-
-              <div className="flex items-start gap-2 mt-4">
-                  <input 
-                      type="checkbox" 
-                      id="terms" 
-                      checked={termsAccepted}
-                      onChange={(e) => setTermsAccepted(e.target.checked)}
-                      className="mt-1"
-                  />
-                  <label htmlFor="terms" className="text-sm text-gray-600">
-                      I agree to the <Link to="/terms" className="text-teal-600 hover:underline">Terms & Conditions</Link> and <Link to="/privacy" className="text-teal-600 hover:underline">Privacy Policy</Link>.
-                  </label>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white py-3 rounded-lg font-semibold transition-all transform hover:scale-[1.01]"
-              >
-                {loading ? 'Creating Account...' : 'Sign Up'}
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-[var(--color-text-body)]">
-                Already have an account?{' '}
-                <Link to="/login" className="text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] font-semibold">
-                  Login
-                </Link>
-              </p>
             </div>
-          </div>
-        </motion.div>
+
+            <div className="flex items-start space-x-3">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="h-4 w-4 mt-1 rounded border-slate-300 text-primary focus:ring-primary"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm text-muted-foreground leading-normal"
+              >
+                I agree to the <Link to="/terms" className="text-primary hover:underline font-medium">Terms of Service</Link> and <Link to="/privacy" className="text-primary hover:underline font-medium">Privacy Policy</Link>.
+              </label>
+            </div>
+
+            <Button type="submit" className="w-full h-11 font-bold text-base shadow-lg shadow-primary/20" disabled={loading}>
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                  />
+                  Creating Account...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  Create Account <UserPlus className="w-4 h-4" />
+                </span>
+              )}
+            </Button>
+          </form>
+
+          <p className="text-center text-sm text-muted-foreground pt-4">
+            Already have an account?{' '}
+            <Link to="/login" className="font-semibold text-primary hover:underline">
+              Log in
+            </Link>
+          </p>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

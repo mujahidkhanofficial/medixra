@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import MainNavigation from '@/components/MainNavigation';
 import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 
 // Pages
 import HomePage from '@/pages/HomePage';
@@ -38,6 +39,7 @@ import SafetyCompliancePage from '@/pages/SafetyCompliancePage';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AuthProvider>
         <div className="min-h-screen bg-gray-50 flex flex-col">
           <MainNavigation />
@@ -49,25 +51,25 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-              
+
               <Route path="/products" element={<ProductListingPage />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/vendor-registration" element={<VendorRegistrationPage />} />
               <Route path="/add-listing" element={<AddListingPage />} />
-              
+
               {/* New Pages */}
               <Route path="/about" element={<AboutPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/safety-compliance" element={<SafetyCompliancePage />} />
-              
+
               {/* Browse Routes */}
               <Route path="/browse-specialty" element={<BrowseSpecialtyPage />} />
               <Route path="/browse-category" element={<BrowseCategoryPage />} />
               <Route path="/listing/:id" element={<ListingDetailPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
-              
+
               {/* Vendor Routes */}
               <Route path="/vendor/register" element={<VendorRegisterPage />} />
               <Route path="/vendors" element={<VendorsListPage />} />

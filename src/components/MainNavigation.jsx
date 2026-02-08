@@ -1,23 +1,37 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Home, ShoppingBag, LogIn, UserPlus, LogOut, LayoutDashboard, User, Menu, X, Stethoscope, HelpCircle, Building2 } from 'lucide-react';
+import {
+  Home,
+  ShoppingBag,
+  LogIn,
+  UserPlus,
+  LogOut,
+  LayoutDashboard,
+  User,
+  Menu,
+  Stethoscope,
+  HelpCircle,
+  Building2
+} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 
 const MainNavigation = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
-    setIsMenuOpen(false);
+    setIsOpen(false);
   };
 
-  const closeMenu = () => setIsMenuOpen(false);
+  const closeMenu = () => setIsOpen(false);
 
   const getDashboardLink = () => {
     if (!user) return '/';
@@ -26,191 +40,191 @@ const MainNavigation = () => {
     return '/buyer/dashboard';
   };
 
+  const navItems = [
+    { to: "/", icon: Home, label: "Home" },
+    { to: "/products", icon: ShoppingBag, label: "Products" },
+    { to: "/vendors", icon: Building2, label: "Vendors" },
+    { to: "/browse-specialty", icon: Stethoscope, label: "Specialties" },
+    { to: "/how-it-works", icon: HelpCircle, label: "How It Works" }
+  ];
+
   return (
-    <div className="flex flex-col w-full sticky top-0 z-50">
-      {/* Branding Header - Top Bar */}
-      <div className="bg-white border-b border-[var(--color-border)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-3 md:py-4">
-            <Link to="/" className="flex items-center gap-2 text-decoration-none">
-              <span className="text-xl md:text-2xl font-bold text-[var(--color-primary)] tracking-wide">
-                Medixra
-              </span>
-            </Link>
-            <div className="flex items-center">
-              <span className="text-2xl md:text-3xl" role="img" aria-label="Pakistan Flag">🇵🇰</span>
-            </div>
+    <div className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+      {/* Top Bar - Branding & Flag (Solid Dark) */}
+      <div className="bg-slate-900 text-slate-300">
+        <div className="container-base flex h-9 items-center justify-between text-[11px] font-bold tracking-wider uppercase">
+          <span className="opacity-90">Pakistan's Premier Medical Marketplace</span>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
+              <span role="img" aria-label="Pakistan Flag">🇵🇰</span> Nationwide Delivery
+            </span>
+            <Separator orientation="vertical" className="h-3 bg-slate-700" />
+            <Link to="/support" className="hover:text-white transition-colors">Support</Link>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation */}
-      <nav className="bg-white border-b border-[var(--color-border)] shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            
-            {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center gap-1">
-              {[
-                { to: "/", icon: Home, label: "Home" },
-                { to: "/products", icon: ShoppingBag, label: "Products" },
-                { to: "/vendors", icon: Building2, label: "Vendors" },
-                { to: "/browse-specialty", icon: Stethoscope, label: "Specialties" },
-                { to: "/how-it-works", icon: HelpCircle, label: "How It Works" }
-              ].map((item) => (
-                <Link key={item.to} to={item.to}>
-                  <Button 
-                    variant="ghost" 
-                    className="text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-bg-light)] font-medium text-base h-10 px-3"
-                  >
-                    <item.icon className="w-4 h-4 mr-2" />
-                    {item.label}
-                  </Button>
-                </Link>
-              ))}
+      <div className="bg-white border-b border-gray-100">
+        <div className="container-base flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2.5 mr-8 group">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white shadow-sm group-hover:bg-primary/90 transition-colors">
+              <Stethoscope className="h-5 w-5" />
             </div>
+            <span className="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-primary transition-colors">
+              Medixra
+            </span>
+          </Link>
 
-            {/* Spacer for mobile layout alignment if needed */}
-            <div className="lg:hidden"></div>
+          {/* Desktop Navigation (Dense & Clean) */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
+              <Link key={item.to} to={item.to}>
+                <Button variant="ghost" className="text-slate-600 hover:text-primary hover:bg-primary/5 font-bold text-sm tracking-wide h-9 px-4">
+                  {item.label}
+                </Button>
+              </Link>
+            ))}
+          </nav>
 
-            {/* Auth Buttons */}
-            <div className="hidden lg:flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Desktop Auth */}
+            <div className="hidden md:flex items-center gap-2">
               {!isAuthenticated ? (
                 <>
-                  <Link to="/vendor/register">
-                    <Button variant="ghost" className="text-[var(--color-text-body)] hover:text-[var(--color-primary)] font-medium">
-                      Register as Vendor
-                    </Button>
-                  </Link>
-                  <div className="h-6 w-px bg-[var(--color-border)] mx-1"></div>
                   <Link to="/login">
-                    <Button variant="ghost" className="text-[var(--color-text-body)] hover:text-[var(--color-primary)] font-medium">
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Login
+                    <Button variant="ghost" size="sm">Log In</Button>
+                  </Link>
+                  <Link to="/vendor/register">
+                    <Button variant="outline" size="sm" className="hidden lg:inline-flex">
+                      Become a Vendor
                     </Button>
                   </Link>
                   <Link to="/signup">
-                    <Button className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white border-none shadow-sm font-semibold px-6">
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      Sign Up
-                    </Button>
+                    <Button size="sm">Sign Up</Button>
                   </Link>
                 </>
               ) : (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <Link to={getDashboardLink()}>
-                    <Button variant="ghost" className="text-[var(--color-text-body)] hover:text-[var(--color-primary)] font-medium">
-                      <LayoutDashboard className="w-4 h-4 mr-2" />
+                    <Button variant="outline" size="sm">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
                       Dashboard
                     </Button>
                   </Link>
-                  <div className="flex items-center gap-3 ml-2 pl-2 border-l border-[var(--color-border)]">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-[var(--color-bg-light)] rounded-full flex items-center justify-center border border-[var(--color-border)]">
-                        <User className="w-4 h-4 text-[var(--color-primary)]" />
-                      </div>
-                      <span className="text-sm font-semibold text-[var(--color-text-heading)] hidden xl:block">{user.name}</span>
+
+                  <div className="flex items-center gap-2 pl-4 border-l">
+                    <Avatar className="h-8 w-8 border">
+                      <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} />
+                      <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium leading-none">{user?.name}</span>
+                      <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
                     </div>
-                    <Button onClick={handleLogout} variant="ghost" size="icon" className="text-[var(--color-text-muted)] hover:text-red-600 hover:bg-red-50">
-                      <LogOut className="w-4 h-4" />
+                    <Button variant="ghost" size="icon" onClick={handleLogout} className="ml-2 text-muted-foreground hover:text-destructive">
+                      <LogOut className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden flex items-center">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-[var(--color-text-body)] p-2 focus:outline-none hover:bg-[var(--color-bg-light)] rounded-md transition-colors"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+            {/* Mobile Menu (Sheet) */}
+            <div className="md:hidden">
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-5 w-5" />
+                    <span className="sr-only">Toggle menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                  <SheetHeader className="text-left border-b pb-4 mb-4">
+                    <SheetTitle className="flex items-center gap-2">
+                      <div className="flex h-6 w-6 items-center justify-center rounded bg-primary text-white">
+                        <Stethoscope className="h-4 w-4" />
+                      </div>
+                      Medixra
+                    </SheetTitle>
+                    <SheetDescription>
+                      Medical Equipment Marketplace
+                    </SheetDescription>
+                  </SheetHeader>
+
+                  <div className="flex flex-col gap-1 py-2">
+                    {isAuthenticated && (
+                      <div className="mb-6 flex items-center gap-3 rounded-lg border p-3 bg-muted/30">
+                        <Avatar>
+                          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} />
+                          <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">{user?.name}</span>
+                          <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col space-y-1">
+                      <h4 className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Menu</h4>
+                      {navItems.map((item) => (
+                        <Link key={item.to} to={item.to} onClick={closeMenu}>
+                          <Button variant="ghost" className="w-full justify-start font-normal h-10">
+                            <item.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+                            {item.label}
+                          </Button>
+                        </Link>
+                      ))}
+                    </div>
+
+                    <Separator className="my-4" />
+
+                    <div className="flex flex-col gap-2">
+                      {!isAuthenticated ? (
+                        <>
+                          <Link to="/login" onClick={closeMenu}>
+                            <Button variant="outline" className="w-full justify-start">
+                              <LogIn className="mr-2 h-4 w-4" />
+                              Log In
+                            </Button>
+                          </Link>
+                          <Link to="/signup" onClick={closeMenu}>
+                            <Button className="w-full justify-start">
+                              <UserPlus className="mr-2 h-4 w-4" />
+                              Sign Up
+                            </Button>
+                          </Link>
+                          <div className="mt-2">
+                            <Link to="/vendor/register" onClick={closeMenu}>
+                              <Button variant="secondary" className="w-full">
+                                Become a Vendor
+                              </Button>
+                            </Link>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <Link to={getDashboardLink()} onClick={closeMenu}>
+                            <Button variant="default" className="w-full justify-start">
+                              <LayoutDashboard className="mr-2 h-4 w-4" />
+                              Go to Dashboard
+                            </Button>
+                          </Link>
+                          <Button variant="ghost" onClick={handleLogout} className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive">
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Log Out
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden bg-white border-t border-[var(--color-border)] overflow-hidden absolute w-full shadow-xl"
-            >
-              <div className="px-4 py-6 space-y-2">
-                {[
-                  { to: "/", icon: Home, label: "Home" },
-                  { to: "/products", icon: ShoppingBag, label: "Browse Products" },
-                  { to: "/vendors", icon: Building2, label: "Browse Vendors" },
-                  { to: "/browse-specialty", icon: Stethoscope, label: "Browse Specialties" },
-                  { to: "/how-it-works", icon: HelpCircle, label: "How It Works" }
-                ].map((item) => (
-                  <Link key={item.to} to={item.to} onClick={closeMenu} className="block">
-                    <Button variant="ghost" className="w-full justify-start text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-bg-light)] h-12 text-base font-medium">
-                      <item.icon className="w-5 h-5 mr-3" />
-                      {item.label}
-                    </Button>
-                  </Link>
-                ))}
-
-                <div className="h-px bg-[var(--color-border)] my-4" />
-
-                {!isAuthenticated ? (
-                  <>
-                    <Link to="/vendor/register" onClick={closeMenu} className="block">
-                      <Button variant="ghost" className="w-full justify-start text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-bg-light)] h-12 text-base font-medium">
-                        <Building2 className="w-5 h-5 mr-3" />
-                        Register as Vendor
-                      </Button>
-                    </Link>
-                    <div className="grid grid-cols-2 gap-4 mt-4">
-                      <Link to="/login" onClick={closeMenu}>
-                        <Button variant="outline" className="w-full justify-center border-[var(--color-border)] text-[var(--color-text-body)] hover:text-[var(--color-primary)] h-12 text-base font-medium">
-                          Login
-                        </Button>
-                      </Link>
-                      <Link to="/signup" onClick={closeMenu}>
-                        <Button className="w-full justify-center bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white h-12 text-base font-bold shadow-md">
-                          Sign Up
-                        </Button>
-                      </Link>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="px-4 py-4 bg-[var(--color-bg-light)] rounded-xl flex items-center gap-3 mb-2 border border-[var(--color-border)]">
-                      <div className="w-10 h-10 bg-[var(--color-primary)] rounded-full flex items-center justify-center text-white font-bold">
-                        {user.name.charAt(0)}
-                      </div>
-                      <div className="flex flex-col">
-                          <span className="text-xs text-[var(--color-text-muted)] uppercase tracking-wider font-semibold">Signed in as</span>
-                          <span className="text-base font-bold text-[var(--color-text-heading)] truncate max-w-[200px]">{user.name}</span>
-                      </div>
-                    </div>
-
-                    <Link to={getDashboardLink()} onClick={closeMenu} className="block">
-                      <Button variant="ghost" className="w-full justify-start text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-bg-light)] h-12 text-base font-medium">
-                        <LayoutDashboard className="w-5 h-5 mr-3" />
-                        Dashboard
-                      </Button>
-                    </Link>
-                    
-                    <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-red-600 hover:bg-red-50 h-12 text-base font-medium">
-                      <LogOut className="w-5 h-5 mr-3" />
-                      Logout
-                    </Button>
-                  </>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+      </div>
     </div>
   );
 };
